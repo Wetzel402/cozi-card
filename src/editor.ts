@@ -3,18 +3,19 @@ import { LitElement, html, TemplateResult, css, CSSResultGroup } from 'lit';
 import { HomeAssistant, fireEvent, LovelaceCardEditor } from 'custom-card-helpers';
 
 import { ScopedRegistryHost } from '@lit-labs/scoped-registry-mixin';
-import { BoilerplateCardConfig } from './types';
+import { CoziCardConfig } from './types';
 import { customElement, property, state } from 'lit/decorators';
 import { formfieldDefinition } from '../elements/formfield';
 import { selectDefinition } from '../elements/select';
 import { switchDefinition } from '../elements/switch';
 import { textfieldDefinition } from '../elements/textfield';
+import { mdiSizeXxl } from '@mdi/js';
 
-@customElement('boilerplate-card-editor')
-export class BoilerplateCardEditor extends ScopedRegistryHost(LitElement) implements LovelaceCardEditor {
+@customElement('cozi-card-editor')
+export class CoziCardEditor extends ScopedRegistryHost(LitElement) implements LovelaceCardEditor {
   @property({ attribute: false }) public hass?: HomeAssistant;
 
-  @state() private _config?: BoilerplateCardConfig;
+  @state() private _config?: CoziCardConfig;
 
   @state() private _helpers?: any;
 
@@ -27,7 +28,7 @@ export class BoilerplateCardEditor extends ScopedRegistryHost(LitElement) implem
     ...formfieldDefinition,
   };
 
-  public setConfig(config: BoilerplateCardConfig): void {
+  public setConfig(config: CoziCardConfig): void {
     this._config = config;
 
     this.loadCardHelpers();
@@ -45,8 +46,8 @@ export class BoilerplateCardEditor extends ScopedRegistryHost(LitElement) implem
     return this._config?.name || '';
   }
 
-  get _entity(): string {
-    return this._config?.entity || '';
+  get _list(): [number, string, string] {
+    return this._config?.list || [0 , "", ""];
   }
 
   get _show_warning(): boolean {
@@ -62,25 +63,38 @@ export class BoilerplateCardEditor extends ScopedRegistryHost(LitElement) implem
       return html``;
     }
 
-    // You can restrict on domain type
-    const entities = Object.keys(this.hass.states);
+    interface list {
+      index: number;
+      title: string;
+      listId: string;
+    }
+
+    const listObjects: list[] = Object.values(this.hass.states['sensor.cozi_lists'].attributes.lists)
+    const lists = listObjects.map((xx, index) => {
+    return <list>
+      {
+        index: index,
+        title: xx.title,
+        listId: xx.listId,
+      };
+    });
 
     return html`
       <mwc-select
         naturalMenuWidth
         fixedMenuPosition
-        label="Entity (Required)"
-        .configValue=${'entity'}
-        .value=${this._entity}
+        label="List (Required)"
+        .configValue=${'list'}
+        .value=${this._list}
         @selected=${this._valueChanged}
         @closed=${(ev) => ev.stopPropagation()}
       >
-        ${entities.map((entity) => {
-          return html`<mwc-list-item .value=${entity}>${entity}</mwc-list-item>`;
+        ${lists.map((xx) => {
+          return html`<mwc-list-item .value=${[xx.index, xx.title, xx.listId]}>${xx.title}</mwc-list-item>`;
         })}
       </mwc-select>
       <mwc-textfield
-        label="Name (Optional)"
+        label="Name (Optional: Uses Cozi list name by default)"
         .value=${this._name}
         .configValue=${'name'}
         @input=${this._valueChanged}
