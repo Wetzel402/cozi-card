@@ -1,17 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { UnsubscribeFunc } from "home-assistant-js-websocket";
 import { LitElement, html, TemplateResult, css, PropertyValues, CSSResultGroup } from 'lit';
 import { customElement, property, state, query } from 'lit/decorators';
 import { classMap } from "lit/directives/class-map.js";
 import { guard } from "lit/directives/guard.js";
 import { repeat } from "lit/directives/repeat.js";
-import { mdiDrag, mdiNotificationClearAll, mdiPlus, mdiSort } from "@mdi/js";
+import { mdiDrag, mdiNotificationClearAll, mdiPlus, mdiSort, mdiRefresh } from "@mdi/js";
 import {
   HomeAssistant,
   hasConfigOrEntityChanged,
-  hasAction,
-  ActionHandlerEvent,
-  handleAction,
   LovelaceCardEditor,
   getLovelace,
 } from 'custom-card-helpers'; // This is a community maintained npm module with common helper functions/types. https://github.com/custom-cards/custom-card-helpers
@@ -126,12 +122,16 @@ export class CoziCard extends LitElement {
     }
 
     return html`
-      <ha-card
-        .header=${this.config.name || this.config.list[1]}
-        class=${classMap({
-          "has-header": "name" in this.config,
-        })}
-      >
+      <ha-card>
+      <div class="has-header">
+      <ha-svg-icon
+          class="addButton"
+          .path=${mdiRefresh}
+          @click=${this._refresh}
+        >
+        </ha-svg-icon>
+        ${this.config.name || this.config.list[1]}
+      </div>
         <div class="addRow">
           <ha-svg-icon
             class="addButton"
@@ -277,6 +277,9 @@ export class CoziCard extends LitElement {
     this._uncheckedItems = uncheckedItems;
 	}
 
+  private _refresh(): void {
+    this.hass.callService('cozi', 'refresh').catch(() => this._fetchData());
+  }
   private _completeItem(ev): void {
     let status = "";
     if (ev.target.checked) {
@@ -389,12 +392,6 @@ export class CoziCard extends LitElement {
     });
   }
 
-  private _handleAction(ev: ActionHandlerEvent): void {
-    if (this.hass && this.config && ev.detail.action) {
-      handleAction(this, this.hass, this.config, ev.detail.action);
-    }
-  }
-
   private _showWarning(warning: string): TemplateResult {
     return html` <hui-warning>${warning}</hui-warning> `;
   }
@@ -419,7 +416,16 @@ export class CoziCard extends LitElement {
         box-sizing: border-box;
       }
       .has-header {
-        padding-top: 0;
+        font-family: var(--paper-font-headline_-_font-family);
+        -webkit-font-smoothing: var(--paper-font-headline_-_-webkit-font-smoothing);
+        font-size: var(--paper-font-headline_-_font-size);
+        font-weight: var(--paper-font-headline_-_font-weight);
+        letter-spacing: var(--paper-font-headline_-_letter-spacing);
+        line-height: var(--paper-font-headline_-_line-height);
+        text-rendering: var(--paper-font-common-expensive-kerning_-_text-rendering);
+        opacity: var(--dark-primary-opacity);
+        padding: 0px 0px 10px 0px;
+        width: 100%
       }
       .editRow,
       .addRow,

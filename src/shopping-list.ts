@@ -58,7 +58,7 @@ export const clearItems = (
   listId: string,
   itemIds: string[],
 ): Promise<void> =>
-hass.callService('cozi', 'add_item', {
+hass.callService('cozi', 'remove_items', {
   list_id: listId,
   item_ids: itemIds,
 });
