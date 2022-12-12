@@ -1,7 +1,7 @@
 {
   "name": "cozi-card",
-  "version": "2022.11.0",
-  "description": "Lovelace cozi-card",
+  "version": "2022.12.0",
+  "description": "A card that works with the Cozi custom integration.",
   "keywords": [
     "home-assistant",
     "homeassistant",

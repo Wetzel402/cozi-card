@@ -1,4 +1,6 @@
-export const CARD_VERSION = '2022.12.0';
-export const CARD_TYPE = 'cozi-card';
+import * as packageJSON from '../package.json';
+
+export const CARD_VERSION = packageJSON['version'];
+export const CARD_TYPE = packageJSON['name'];
 export const CARD_NAME = 'Cozi Card';
-export const CARD_DESC = 'A card that works with the Cozi custom integration.';
+export const CARD_DESC = packageJSON['description'];
