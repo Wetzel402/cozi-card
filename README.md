@@ -8,7 +8,9 @@
 <a name="introduction"></a>
 ## Introduction
 A custom Lovelace card for [Home
-Assistant](https://www.home-assistant.io/) to be used with the [hass-cozi custom component](https://github.com/Wetzel402/hass-cozi)
+Assistant](https://www.home-assistant.io/) to be used with the [hass-cozi custom component](https://github.com/Wetzel402/hass-cozi).
+
+This card is a modified version of the built in [shopping card](https://github.com/home-assistant/frontend/blob/dev/src/panels/lovelace/cards/hui-shopping-list-card.ts).
 
 ![Cozi Card](https://github.com/Wetzel402/cozi-card/blob/master/cozi-card.png?raw=true)
 
