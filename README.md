@@ -10,7 +10,7 @@
 A custom Lovelace card for [Home
 Assistant](https://www.home-assistant.io/) to be used with the [hass-cozi custom component](https://github.com/Wetzel402/hass-cozi)
 
-![Weather Card](https://github.com/Wetzel402/cozi-card/blob/master/cozi-card/cozi-card.png?raw=true)
+![Cozi Card](https://github.com/Wetzel402/cozi-card/blob/master/cozi-card.png?raw=true)
 
 <a name="installation"></a>
 ## Installation
