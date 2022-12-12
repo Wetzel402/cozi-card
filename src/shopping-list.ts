@@ -1,4 +1,3 @@
-import { mdiHomeAssistant } from '@mdi/js';
 import { HomeAssistant } from 'custom-card-helpers'; // This is a community maintained npm module with common helper functions/types. https://github.com/custom-cards/custom-card-helpers
 
 export interface ShoppingListItem {
@@ -77,9 +76,14 @@ hass.callService('cozi', 'add_item', {
 
 export const reorderItems = (
   hass: HomeAssistant,
-  itemIds: string[]
-): Promise<ShoppingListItem> =>
-  hass.callWS({
-    type: "shopping_list/items/reorder",
-    item_ids: itemIds,
-  });
+  listId: string,
+  listTitle: string,
+  itemsList: string[],
+  listType: string,
+): Promise<void> =>
+hass.callService('cozi', 'reorder_items', {
+  list_id: listId,
+  list_title: listTitle,
+  items_list: itemsList,
+  list_type: listType,
+});

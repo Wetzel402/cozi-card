@@ -9,7 +9,6 @@ import { formfieldDefinition } from '../elements/formfield';
 import { selectDefinition } from '../elements/select';
 import { switchDefinition } from '../elements/switch';
 import { textfieldDefinition } from '../elements/textfield';
-import { mdiSizeXxl } from '@mdi/js';
 
 @customElement('cozi-card-editor')
 export class CoziCardEditor extends ScopedRegistryHost(LitElement) implements LovelaceCardEditor {
@@ -46,16 +45,8 @@ export class CoziCardEditor extends ScopedRegistryHost(LitElement) implements Lo
     return this._config?.name || '';
   }
 
-  get _list(): [number, string, string] {
-    return this._config?.list || [0 , "", ""];
-  }
-
-  get _show_warning(): boolean {
-    return this._config?.show_warning || false;
-  }
-
-  get _show_error(): boolean {
-    return this._config?.show_error || false;
+  get _list(): [number, string, string, string] {
+    return this._config?.list || [0 , "", "", ""];
   }
 
   protected render(): TemplateResult | void {
@@ -67,6 +58,7 @@ export class CoziCardEditor extends ScopedRegistryHost(LitElement) implements Lo
       index: number;
       title: string;
       listId: string;
+      listType: string;
     }
 
     const listObjects: list[] = Object.values(this.hass.states['sensor.cozi_lists'].attributes.lists)
@@ -76,6 +68,7 @@ export class CoziCardEditor extends ScopedRegistryHost(LitElement) implements Lo
         index: index,
         title: xx.title,
         listId: xx.listId,
+        listType: xx.listType,
       };
     });
 
@@ -90,7 +83,7 @@ export class CoziCardEditor extends ScopedRegistryHost(LitElement) implements Lo
         @closed=${(ev) => ev.stopPropagation()}
       >
         ${lists.map((xx) => {
-          return html`<mwc-list-item .value=${[xx.index, xx.title, xx.listId]}>${xx.title}</mwc-list-item>`;
+          return html`<mwc-list-item .value=${[xx.index, xx.title, xx.listId, xx.listType]}>${xx.title}</mwc-list-item>`;
         })}
       </mwc-select>
       <mwc-textfield
@@ -99,20 +92,6 @@ export class CoziCardEditor extends ScopedRegistryHost(LitElement) implements Lo
         .configValue=${'name'}
         @input=${this._valueChanged}
       ></mwc-textfield>
-      <mwc-formfield .label=${`Toggle warning ${this._show_warning ? 'off' : 'on'}`}>
-        <mwc-switch
-          .checked=${this._show_warning !== false}
-          .configValue=${'show_warning'}
-          @change=${this._valueChanged}
-        ></mwc-switch>
-      </mwc-formfield>
-      <mwc-formfield .label=${`Toggle error ${this._show_error ? 'off' : 'on'}`}>
-        <mwc-switch
-          .checked=${this._show_error !== false}
-          .configValue=${'show_error'}
-          @change=${this._valueChanged}
-        ></mwc-switch>
-      </mwc-formfield>
     `;
   }
 

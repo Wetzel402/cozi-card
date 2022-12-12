@@ -10,7 +10,7 @@ declare global {
 // TODO Add your configuration elements here for type-checking
 export interface CoziCardConfig extends LovelaceCardConfig {
   type: string;
-  list: [number, string, string];
+  list: [number, string, string, string];
   name?: string;
   show_warning?: boolean;
   show_error?: boolean;
