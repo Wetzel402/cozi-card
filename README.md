@@ -29,7 +29,7 @@ Add this repository to HACS and install.
 Select a list from the drop down.  You can overide the list name with an optional name.
 
 #### Manual
-And add a card with type `custom:cozi-card`:
+Add a card with type `custom:cozi-card`:
 
 ```yaml
 type: custom:cozi-card
