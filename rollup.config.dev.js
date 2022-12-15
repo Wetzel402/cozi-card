@@ -12,8 +12,10 @@ import { ignoreSwitchFiles } from './elements/ignore/switch';
 export default {
   input: ['src/cozi-card.ts'],
   output: {
-    dir: './dist',
-    format: 'es',
+    file: './dist/cozi-card.js',
+    format: 'iife',
+    compact: true,
+    inlineDynamicImports: true,
   },
   plugins: [
     resolve(),

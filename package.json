@@ -2,6 +2,7 @@
   "name": "cozi-card",
   "version": "2022.12.0",
   "description": "A card that works with the Cozi custom integration.",
+  "main": "cozi-card.js",
   "keywords": [
     "home-assistant",
     "homeassistant",
@@ -10,9 +11,8 @@
     "lovelace",
     "custom-cards"
   ],
-  "module": "cozi-card.js",
-  "repository": "git@github.com:custom_cards/boilerplate-card.git",
-  "author": "Ian Richardson <iantrich@gmail.com>",
+  "repository": "git@github.com:wetzel402/cozi-card.git",
+  "author": "Cody Wetzel <wetzelredistribution@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "@lit-labs/scoped-registry-mixin": "^1.0.0",
