@@ -108,24 +108,30 @@ export class CoziCardEditor extends ScopedRegistryHost(LitElement) implements Lo
 
   private _valueChanged(ev): void {
     if (!this._config || !this.hass) {
+      console.debug("return1");
       return;
     }
     const target = ev.target;
     if (this[`_${target.configValue}`] === target.value) {
+      console.debug("return2");
       return;
     }
     if (target.configValue) {
+      console.debug("if1");
       if (target.value === '') {
+        console.debug("if2");
         const tmpConfig = { ...this._config };
         delete tmpConfig[target.configValue];
         this._config = tmpConfig;
       } else {
+        console.debug("else");
         this._config = {
           ...this._config,
           [target.configValue]: target.checked !== undefined ? target.checked : target.value,
         };
       }
     }
+    console.debug("config-changed");
     fireEvent(this, 'config-changed', { config: this._config });
   }
 
