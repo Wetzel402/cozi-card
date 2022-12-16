@@ -73,7 +73,7 @@ export class CoziCardEditor extends ScopedRegistryHost(LitElement) implements Lo
     });
 
     return html`
-      <paper-input
+      <mwc-select
         naturalMenuWidth
         fixedMenuPosition
         label="List (Required)"
@@ -85,7 +85,7 @@ export class CoziCardEditor extends ScopedRegistryHost(LitElement) implements Lo
         ${lists.map((xx) => {
           return html`<mwc-list-item .value=${[xx.index, xx.title, xx.listId, xx.listType]}>${xx.title}</mwc-list-item>`;
         })}
-      </paper-input>
+      </mwc-select>
       <mwc-textfield
         label="Name (Optional: Uses Cozi list name by default)"
         .value=${this._name}
